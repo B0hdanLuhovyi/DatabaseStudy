@@ -1,0 +1,37 @@
+Table Client {
+ id integer [primary key, increment]
+ name varchar(64) [not null]
+ email varchar(100) [unique]
+ hash varchar(256) [not null]
+ date timestamp [not null, default: "now()"]
+}
+Table Category {
+ id integer [primary key, increment]
+ name varchar(64) [unique]
+ description text [not null]
+}
+Table Product {
+ id integer [primary key, increment]
+ name varchar(64) [unique]
+ description text [not null]
+ price decimal(10,2) [not null]
+ quantity integer [not null, default: 0]
+ categoryId integer [not null]
+}
+Table Order {
+ id integer [primary key, increment]
+ status varchar(32) [not null]
+ createDate timestamp [not null, default: "now()"]
+ clientId integer [not null]
+}
+Table Cart {
+  id integer [primary key, increment]
+  orderId integer [not null]
+  productId integer [not null]
+  productPrice decimal(10,2) [not null]
+  productQuantity integer [not null]
+}
+Ref: Product.categoryId > Category.id
+Ref: Cart.orderId > Order.id
+Ref: Cart.productId > Product.id
+Ref: Order.clientId > Client.id
